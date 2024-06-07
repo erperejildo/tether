@@ -4,25 +4,36 @@ import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 100 },
+  { field: 'id', headerName: 'ID'},
   {
     field: 'image',
-    headerName: 'Symbol',
-    width: 150,
-    renderCell: (params) => (
-      <img src={params.value} alt={params.row[0]} style={{ width: '32px', height: '32px' }} />
-    ),
+    headerName: 'Token',
+    renderCell: (params) => {
+      const symbol = params.row[0].slice(1).replace('USD','');
+      return <img src={`https://static.bitfinex.com/images/icons/${symbol}.svg`} alt={symbol} style={{ width: '32px', height: '32px' }} />
+    },
   },
-  { field: '1', headerName: 'Bid', width: 150 },
-  { field: '2', headerName: 'Bid Size', width: 150 },
-  { field: '3', headerName: 'Ask', width: 150 },
-  { field: '4', headerName: 'Ask Size', width: 150 },
-  { field: '5', headerName: 'Daily Change', width: 150 },
-  { field: '6', headerName: 'Relative Daily Change (%)', width: 250 },
-  { field: '7', headerName: 'Last Price', width: 150 },
-  { field: '8', headerName: 'Volume', width: 150 },
-  { field: '9', headerName: 'High', width: 150 },
-  { field: '10', headerName: 'Low', width: 150 },
+  {
+    field: '10',
+    headerName: 'Last Price',
+    valueFormatter: (params) => `${params} USD`,
+  },
+  { field: '9', headerName: '24h'},
+  {
+    field: '3',
+    headerName: '24 High',
+    valueFormatter: (params) => `${params} USD`,
+  }, // docs say [12] but that index doesn't exist
+  {
+    field: '4',
+    headerName: '24 Low',
+    valueFormatter: (params) => `${params} USD`,
+  },
+  {
+    field: '5',
+    headerName: '24 Vol',
+    valueFormatter: (params) => `${params} USD`,
+  },
 ];
 
 const CryptoTable = () => {

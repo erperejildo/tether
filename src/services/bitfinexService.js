@@ -1,15 +1,15 @@
-import axios from 'axios';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const getAllTickers = async () => {
-  try {
-    const response = await axios.get('/v2/tickers?symbols=ALL');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching tickers:', error);
-    throw error;
-  }
-};
+export const bitfinexApi = createApi({
+  reducerPath: 'bitfinexApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: '',
+  }),
+  endpoints: (builder) => ({
+    getAllTickers: builder.query({
+      query: () => '/v2/tickers?symbols=ALL',
+    }),
+  }),
+});
 
-export default {
-  getAllTickers,
-};
+export const { useGetAllTickersQuery } = bitfinexApi;
